@@ -17,7 +17,9 @@ def main(dictionaryType = ArrayDict):
         d[key] = value
     print("\nLength is 4: ", len(d))
 
-
+    #for key in d:
+        #print(key)
+        
     print("\nThe dictionary:", d)
     #d.keys()
     print("\nThe keys:", end = " ")

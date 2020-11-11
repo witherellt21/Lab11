@@ -30,15 +30,17 @@ class HashDict(AbstractDict):
     # Exercise
     def __iter__(self):
         """Serves up the keys in the dictionary."""
-        self._index = 0
         self._priorEntry = None
         self._foundEntry = self._array[self._index]
         modCount = self.getModCount()
-        while cursor < len(self):
-            yield self._items[cursor].key
+        while self._foundEntry:
+            yield self._foundEntry.data.key
             if modCount != self.getModCount():
                 raise AttributeError("Mutations not allowed in a for loop")
-            cursor += 1
+            self._priorEntry = self._foundEntry
+            self._foundEntry = self._foundEntry.next
+
+        self._priorEntry = self._foundEntry = None
 
     # Exercise
     def __getitem__(self, key):
@@ -46,10 +48,11 @@ class HashDict(AbstractDict):
         when load factor is > MAX_LOAD_FACTOR
         Raises: a KeyError if the key is not in the dictionary.
         Returns the value associated with the key."""
-        if loadFactor > MAX_LOAD_FACTOR:
+        
+        if self.loadFactor() > HashDict.MAX_LOAD_FACTOR:
             self._rehash(2)
         if key in self:
-            return key.data
+            return self._getEntry(key).value
         raise KeyError("The key is not in the dictionary")
 
     # Exercise
@@ -62,12 +65,14 @@ class HashDict(AbstractDict):
 
         if key not in self:
             entry = Entry(key, value)
-            node = Node(entry, self._priorEntry)
+            node = Node(entry, self._array[self._index])
             self._array[hashIndex] = node
+            self._index = hashIndex
+            self._size += 1
         else:
             self._array[hashIndex].data.value = value
 
-        if self.loadFactor() > self.MAX_LOAD_FACTOR:
+        if self.loadFactor() > HashDict.MAX_LOAD_FACTOR:
             self._rehash(2)
 
 
