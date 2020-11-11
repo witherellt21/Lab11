@@ -1,7 +1,7 @@
 """
 File: hashDict.py
 
-YOUR NAME GOES HERE
+Taylor Witherell
 
 A hash-based dictionary.
 """
@@ -30,16 +30,27 @@ class HashDict(AbstractDict):
     # Exercise
     def __iter__(self):
         """Serves up the keys in the dictionary."""
-        return iter(list())
+        self._index = 0
+        self._priorEntry = None
+        self._foundEntry = self._array[self._index]
+        modCount = self.getModCount()
+        while cursor < len(self):
+            yield self._items[cursor].key
+            if modCount != self.getModCount():
+                raise AttributeError("Mutations not allowed in a for loop")
+            cursor += 1
 
     # Exercise
     def __getitem__(self, key):
         """Precondition: the key is in the dictionary. Resizes
         when load factor is > MAX_LOAD_FACTOR
         Raises: a KeyError if the key is not in the dictionary.
-        Returns the value associated with the key."""        
-        
-        return None
+        Returns the value associated with the key."""
+        if loadFactor > MAX_LOAD_FACTOR:
+            self._rehash(2)
+        if key in self:
+            return key.data
+        raise KeyError("The key is not in the dictionary")
 
     # Exercise
     def __setitem__(self, key, value):
@@ -47,30 +58,41 @@ class HashDict(AbstractDict):
         adds the key and value to it.
         Othwerise, replaces the old value with the new
         value. Resizes when load factor is > MAX_LOAD_FACTOR"""
-        pass
+        hashIndex = hash(key) % len(self._array)
 
-       
+        if key not in self:
+            entry = Entry(key, value)
+            node = Node(entry, self._priorEntry)
+            self._array[hashIndex] = node
+        else:
+            self._array[hashIndex].data.value = value
+
+        if self.loadFactor() > self.MAX_LOAD_FACTOR:
+            self._rehash(2)
+
+
+
     def _rehash(self, resizeFactor):
-        
+
         if int(len(self._array) * resizeFactor) >= HashDict.DEFAULT_CAPACITY:
             tempArray = self._array
-            
+
             self._array = Array(int(len(self._array) * resizeFactor))
             self._size = 0
-            
+
             for item in tempArray:
                 probe = item
                 while probe:
                     self[probe.data.key] = probe.data.value
                     probe=probe.next
-        
-    
+
+
     def _getEntry(self, key):
         """Helper method to obtain the entry rather than the value associated with a key."""
         if key in self:
             return self._foundEntry.data
         return None
-        
+
     def loadFactor(self):
         """Returns the load factor of the current hash size."""
         return len(self) / len(self._array)
@@ -95,7 +117,7 @@ class HashDict(AbstractDict):
         """Returns True if the key in in the dictionary
         or False otherwise."""
         hashIndex = hash(key) % len(self._array)
-        
+
         self._foundEntry = self._array[hashIndex]
         self._priorEntry = None
         while self._foundEntry:
@@ -104,8 +126,7 @@ class HashDict(AbstractDict):
             else:
                 self._priorEntry = self._foundEntry
                 self._foundEntry = self._foundEntry.next
-                
-        self._foundEntry = self._priorEntry = None
-        
-        return False
 
+        self._foundEntry = self._priorEntry = None
+
+        return False

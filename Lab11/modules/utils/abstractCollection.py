@@ -1,6 +1,6 @@
 """
 File: abstractCollection.py
-Author: YOUR NAME GOES HERE
+Author: Taylor Witherell
 """
 
 class AbstractCollection(object):
@@ -68,4 +68,3 @@ class AbstractCollection(object):
         """Resets the numbers of items and mutations to 0."""
         self._size = 0
         self._modCount = 0
-

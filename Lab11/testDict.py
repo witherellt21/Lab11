@@ -17,7 +17,7 @@ def main(dictionaryType = ArrayDict):
         d[key] = value
     print("\nLength is 4: ", len(d))
 
-    
+
     print("\nThe dictionary:", d)
     #d.keys()
     print("\nThe keys:", end = " ")
@@ -38,7 +38,7 @@ def main(dictionaryType = ArrayDict):
     print("\nDelete all keys, printing the values:")
     for key in keys:
         print(d.pop(key))
-    
+
     print("values are:", values)
     print("\nLength is 0: ", len(d))
     d = dictionaryType(keys, values)
@@ -50,4 +50,4 @@ def main(dictionaryType = ArrayDict):
 
 # Include your dictionary type as an argument to main
 if __name__ == "__main__":
-    main(ArrayDict)
+    main(HashDict)
