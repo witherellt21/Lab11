@@ -1,7 +1,7 @@
 """
 File: arraydict.py
 
-YOUR NAME GOES HERE
+Taylor Witherell
 
 An array-based dictionary.
 """

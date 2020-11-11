@@ -1,7 +1,7 @@
 """
 File: testdict.py
 
-YOUR NAME GOES HERE
+Taylor Witherell
 
 A test harness for dictionaries.
 """
@@ -16,7 +16,10 @@ def main(dictionaryType = ArrayDict):
     for (key, value) in pairs:
         d[key] = value
     print("\nLength is 4: ", len(d))
+
+    
     print("\nThe dictionary:", d)
+    #d.keys()
     print("\nThe keys:", end = " ")
     for key in d.keys(): print(key, end = " ")
     print("\n\nThe values:", end = " ")
@@ -43,8 +46,8 @@ def main(dictionaryType = ArrayDict):
     d2 = dictionaryType(["occupation", "citizenship", "age"], ["teacher", "USA", 67])
     print("\nA second dictionary:", d2)
     print("\nAdd (+) the two dictionaries:", d + d2)
-    
+
 
 # Include your dictionary type as an argument to main
 if __name__ == "__main__":
-    main(HashDict)
+    main(ArrayDict)

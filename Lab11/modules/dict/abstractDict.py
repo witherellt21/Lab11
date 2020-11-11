@@ -1,7 +1,7 @@
 """
 File: abstractDict.py
 
-YOUR NAME GOES HERE
+Taylor Witherell
 
 Common data and method implementations for dictionaries.
 """
@@ -27,27 +27,38 @@ class AbstractDict(AbstractCollection):
     def get(self, key, defaultValue = None):
         """Returns the associated value if the key is in the
         dictionary, or returns the default value otherwise."""
+        if key in self.keys():
+            return self[key]
         return defaultValue
 
     # Exercise   
     def add(self, entry):
         """Adds the values contained in an Entry parameter to the current dictionary."""
-        pass
+        self[entry.key] = entry.value
         
     # Exercise
     def keys(self):
         """Returns an iterator on the list of keys in the dictionary."""
-        return iter(list())
+        keys = list()
+        for key in self:
+            keys.append(key)
+        return iter(keys)
 
     # Exercise
     def values(self):
         """Returns an iterator on the list of values in the dictionary."""
-        return iter(list())
+        values = list()
+        for key in self:
+            values.append(self[key])
+        return values
 
     # Exercise
     def entries(self):
         """Returns a iterator on the list of entries in the dictionary."""
-        return iter(list())
+        entries = list()
+        for key in self:
+            entries.append(self._getEntry(key))
+        return entries
 
     def __add__(self, other):
         """Returns a dictionary containing the entries of self and
