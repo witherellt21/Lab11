@@ -19,7 +19,7 @@ def main(dictionaryType = ArrayDict):
 
     #for key in d:
         #print(key)
-        
+
     print("\nThe dictionary:", d)
     #d.keys()
     print("\nThe keys:", end = " ")

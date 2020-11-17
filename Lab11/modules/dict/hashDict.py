@@ -108,6 +108,27 @@ class HashDict(AbstractDict):
         """Removes the key and returns the associated value if the
         key in in the dictionary, or returns the default value
         otherwise. Resizes when load factor is < MIN_LOAD_FACTOR"""
+        '''
+        hashIndex = hash(key) %len(self._array)
+        if key in self:
+            #print(self._foundEntry.data)
+            defaultValue = self._array[hashIndex].data.value
+            self._array[hashIndex] = None
+        '''
+        if not key in self:
+            return False
+        elif self._priorEntry == None:
+            self._array[self._index] = self._foundEntry.next
+            self._size-= 1
+            defaultValue = self._foundEntry.data.value
+        else:
+            self._priorEntry.next= self._foundEntry.next
+            self._size-= 1
+            defaultValue = self._foundEntry.data.value
+
+        if self.loadFactor() < HashDict.MIN_LOAD_FACTOR:
+            self._rehash(.5)
+        
         return defaultValue
 
     def clear(self):
